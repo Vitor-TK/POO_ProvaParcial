@@ -15,14 +15,14 @@ public class Main {
 		do {
 			System.out.print("> ");
 			line = teclado.nextLine();
+			checar(line);
 			switch (line.toLowerCase()) {
 			case "help":
 				printMenu();
 				break;
 			case "1":
 				if (indexList >= lista.length) {
-					System.out
-							.println("N˙mero m·ximo de reservas atingido! O sr(a) vai ser colocado na lista de espera");
+					System.out.println("N√∫mero m√°ximo de reservas atingido! O sr(a) vai ser colocado na lista de espera");
 					listaDeEspera[indexEsp] = reservarCliente();
 					if (indexEsp >= listaDeEspera.length) {
 						System.out.println("Lista de espera cheia. Por favor consulte outro dia.");
@@ -41,10 +41,10 @@ public class Main {
 
 				if (pesquisarLista(lista, aux) == -2) {
 					if (pesquisarListaEsp(listaDeEspera, aux) == -1) {
-						System.out.println("CPF / CNPJ n„o encontrado no sistema.");
+						System.out.println("CPF / CNPJ n√£o encontrado no sistema.");
 						break;
 					} else {
-						System.out.println("Cliente n„o possui reserva. Est· lista de espera.");
+						System.out.println("Cliente n√£o possui reserva. Est√° lista de espera.");
 						break;
 					}
 				} else {
@@ -54,11 +54,13 @@ public class Main {
 			case "3":
 				System.out.println("Imprimindo reservas");
 				if (indexList == 0) {
-					System.out.println("N„o h· reservas.");
+					System.out.println("N√£o h√° reservas.");
 					break;
 				}
 				for (int i = 0; i < lista.length; i++) {
-					System.out.println(lista[i]);
+					if (lista[i] != null) {
+						System.out.println(lista[i]);
+					}
 				}
 				break;
 			case "4":
@@ -67,8 +69,10 @@ public class Main {
 					System.out.println("Lista de espera vazia.");
 					break;
 				}
-				for (int i = 0; i < lista.length; i++) {
-					System.out.println(listaDeEspera[i] + " Posicao na lista de espera = " + (i + 1) + "∞");
+				for (int i = 0; i < listaDeEspera.length; i++) {
+					if (listaDeEspera[i] != null) {
+						System.out.println(listaDeEspera[i] + " Posicao na lista de espera = " + (i + 1) + "¬∞");
+					}
 				}
 				break;
 			case "5":
@@ -76,7 +80,7 @@ public class Main {
 				aux = teclado.nextLine();
 				if (pesquisarLista(lista, aux) == -2) {
 					if (pesquisarListaEsp(listaDeEspera, aux) == -1) {
-						System.out.println("CPF n„o consta no sistema!");
+						System.out.println("CPF n√£o consta no sistema!");
 						break;
 					} else {
 						System.out.println("Retirado da lista de espera");
@@ -110,13 +114,29 @@ public class Main {
 			case "6":
 				break;
 			default:
-				System.out.println("Opcao invalida");
+				System.out.println("Input invalido.");
 			}
 
 		} while (!line.equals("6"));
 
 	}
 
+	public static boolean checar(String string) {
+	    int check;
+			
+	    if(string == null || string.equals("")) {
+	        return false;
+	    }
+	    
+	    try {
+	        check = Integer.parseInt(string);
+	        return true;
+	    } catch (NumberFormatException e) {
+	        System.out.println("Comando digitado n√£o √© uma op√ß√£o num√©rica.");
+	    } 
+	    return false;
+	}
+	
 	public static int pesquisarLista(Reserva[] cliente, String aux) {
 		for (int i = 0; i < cliente.length; i++) {
 			if (cliente[i] == null) {
@@ -174,7 +194,7 @@ public class Main {
 	private static String inputTipoCliente() {
 		String tipoCliente = null;
 		while (tipoCliente == null) {
-			System.out.print("Pessoa FÌsica (f) ou JurÌdica (j): ");
+			System.out.print("Pessoa F√≠sica (f) ou Jur√≠dica (j): ");
 			tipoCliente = new Scanner(System.in).nextLine();
 			if (!"f".equals(tipoCliente) && !"j".equals(tipoCliente)) {
 				tipoCliente = null;
@@ -187,7 +207,7 @@ public class Main {
 	private static String inputTipoPagamento() {
 		String tipoPag = null;
 		while (tipoPag == null) {
-			System.out.print("Pagamento ‡ vista (v) ou parcelado (p): ");
+			System.out.print("Pagamento √† vista (v) ou parcelado (p): ");
 			tipoPag = new Scanner(System.in).nextLine();
 			if (!"v".equals(tipoPag) && !"p".equals(tipoPag)) {
 				tipoPag = null;
